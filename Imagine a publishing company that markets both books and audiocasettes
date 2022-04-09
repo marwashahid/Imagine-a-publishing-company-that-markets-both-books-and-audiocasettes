@@ -1,0 +1,169 @@
+#include<iostream>
+#include<string>
+using namespace std;
+class Publication
+{
+private:
+	string title;
+	float price;
+public:
+	Publication()
+	{
+
+	}
+	Publication(const Publication &obj)
+	{
+		this->title = obj.title;
+		this->price = obj.price;
+		cout << "Copy constructor called !";
+	}
+
+	Publication(string str, float cost)
+	{
+		title = str;
+		price = cost;
+	}
+	void setTitle(string str);
+	void setPrice(float p);
+	string getTitle();
+	float getPrice();
+	void displayDetails() const;
+};
+void Publication::setTitle(string str)
+{
+	title = str;
+}
+void Publication::setPrice(float p)
+{
+	price = p;
+}
+string Publication::getTitle()
+{
+	return title;
+}
+float Publication::getPrice()
+{
+	return price;
+}
+void Publication::displayDetails() const
+{
+	cout << "Title :" << title << "\n";
+	cout << "Price :" << price << "\n";
+}
+class Book : public Publication
+{
+private:
+	int pageCount;
+public:
+	Book()
+	{
+
+	}
+	Book(const Book &a, const Publication &b) :Publication(b)
+	{
+		this->pageCount = a.pageCount;
+
+		cout << "Copy constructor called !";
+	}
+	Book(string t, float p, int pagecount) : Publication(t, p)
+	{
+		pageCount = pagecount;
+
+	}
+	void setCount(int c);
+	int getCount();
+	void displayDetails() const;
+};
+void Book::setCount(int c)
+{
+	pageCount = c;
+}
+int Book::getCount()
+{
+	return pageCount;
+}
+void Book::displayDetails() const
+{
+	cout << "page count :" << pageCount << "\n";
+}
+class Tape : public Publication
+{
+private:
+	float timeInMinutes;
+public:
+	Tape()
+	{
+
+
+	}
+	Tape(const Tape &t, const Publication &obj) : Publication(t)
+	{
+		this->timeInMinutes = t.timeInMinutes;
+		cout << "Copy constructor called !";
+	}
+	Tape(string t, float p, float min) : Publication(t, p)
+	{
+		timeInMinutes = min;
+	}
+	void setTimeInMinutes(float m);
+	float getTimeInMinutes();
+	void displayDetails() const;
+};
+void Tape::setTimeInMinutes(float m)
+{
+	timeInMinutes = m;
+
+}
+float Tape::getTimeInMinutes()
+{
+	return timeInMinutes;
+}
+void Tape::displayDetails() const
+{
+	Publication::displayDetails();
+	cout << "Duration :" << timeInMinutes << "\n";
+}
+Book* createABookFromUserInput();
+Tape* createATapeFromUserInput();
+int main()
+{
+
+	Book *book_ptr = createABookFromUserInput();
+	Tape *tape_ptr = createATapeFromUserInput();
+	(*tape_ptr).Tape::displayDetails();
+	(*book_ptr).Publication::displayDetails();
+	(*book_ptr).Book::displayDetails();
+
+	system("pause");
+	return 0;
+}
+Book* createABookFromUserInput()
+{
+	string title;
+	cout << "Enter title :" << endl;
+	getline(cin, title);
+	float price;
+	cout << "Enter price :" << endl;
+	cin >> price;
+	int page_no;
+	cout << "Enter page number :" << endl;
+	cin >> page_no;
+	//cin.ignore();
+	Book *book = new Book(title, price, page_no);
+	return book;
+}
+Tape* createATapeFromUserInput()
+{
+	cin.ignore();
+	string title;
+	cout << "Enter title :" << endl;
+	getline(cin, title);
+	float price;
+	cout << "Enter price :" << endl;
+	cin >> price;
+	float time_in_minutes;
+	cout << "Enter minutes :" << endl;
+	cin >> time_in_minutes;
+	Tape* tape = new Tape(title, price, time_in_minutes);
+	return tape;
+}
